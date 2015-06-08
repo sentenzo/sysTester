@@ -4,5 +4,6 @@ __dummy.html
 *.o
 *.obj
 *.log
-bin/*
+bin
 dub.selection.json
+*.exe
