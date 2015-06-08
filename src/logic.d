@@ -14,7 +14,7 @@ struct LoggedAnswer {
 class CheckTask {
     private:
         dstring _name;
-        dstring _info;
+        //dstring _info;
         State _state;
     protected:
         enum Status {
@@ -44,7 +44,7 @@ class CheckTask {
             _state.stuck = false;
         }
         dstring getName()      { return _name; }
-        dstring getInfo()      { return _info; }
+        dstring getInfo()      { return _state.info; }
         
         void    run() { 
             LoggedAnswer la;

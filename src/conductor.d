@@ -52,8 +52,24 @@ public Widget[] getTiles(string sectionName) {
     auto jArr = j[sectionName].array;
     Widget[] ret = new Widget[jArr.length];
     for(int i=0; i<jArr.length; i++)
-        ret[i] = (new TextWidget()).text(to!dstring(jArr[i]["name"].str()));
+        ret[i] = makeTile(jArr[i]);
     return ret;
+}
+
+private Widget makeTile(JSONValue node) {
+    logic.CheckTask cht = new CheckTask(to!dstring(node["name"]), null, null);
+    Widget tName = (new TextWidget()).text(cht.getName());
+    Widget tInfo = (new EditLine()).readOnly(true).text(cht.getInfo());
+    ImageButton iButton = new ImageButton("ib0", "folder");
+    
+    HorizontalLayout hla = new HorizontalLayout();
+    VerticalLayout vla = new VerticalLayout();
+    hla.addChild(tName);
+    hla.addChild(iButton);
+    vla.addChild(hla);
+    vla.addChild(tInfo);
+    
+    return vla;//(new TextWidget()).text(to!dstring(node["name"].str()));
 }
 
 

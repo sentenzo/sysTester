@@ -49,6 +49,22 @@ static Widget _getMainWidget() {
     vlayout.addChild(_tabs);
 
     auto btnRun  = (new Button("btnRun",  "Run"d           )).margins(Rect(20,20,20,20)).maxWidth(200);
+    auto btnLights = new ImageButton("ib0", "lightOff");
+    
+    btnLights.click = delegate(Widget w) {
+        switch (platform.instance.uiTheme) {
+            case "theme_dark":
+                platform.instance.uiTheme = "theme_default";
+                (cast(ImageWidget)(w)).drawableId = "lightOff";
+                break;
+            default:
+                platform.instance.uiTheme = "theme_dark";
+                (cast(ImageWidget)(w)).drawableId = "lightOn";
+                break;
+        }
+        //(platform.instance.uiTheme == "theme_dark") ? (platform.instance.uiTheme = "theme_default") : (platform.instance.uiTheme = "theme_dark");
+        return true;
+    };
     auto btnExit = (new Button("btnExit", "Exit"d          )).margins(Rect(20,20,20,20)).maxWidth(200);   
     btnRun .alignment(Align.Center).backgroundColor(getRandColor());
     btnExit.alignment(Align.Center).backgroundColor(getRandColor());
@@ -59,6 +75,7 @@ static Widget _getMainWidget() {
     hlayout.addChild(btnExit);
     
     hlayout.addChild(new ImageTextButton("btn5", "text-plain", "Enabled"d));
+    hlayout.addChild(btnLights);
     
     vlayout.addChild(hlayout);
     
