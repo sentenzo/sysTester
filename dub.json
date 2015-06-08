@@ -1,0 +1,19 @@
+{
+	"name": "checker",
+	"description": "Some system testing app",
+	"authors": ["sentenzo"],
+    
+    "targetPath": "bin",
+    "targetType": "executable",
+    "targetName": "checker",
+    
+    "stringImportPaths": [
+        "res",
+        "res/png"
+    ],
+    
+	"dependencies": {
+		"dlangui": "~>0.6.32"
+	},
+    "sourceFiles-windows": ["$PACKAGE_DIR/res/win_app.def"]
+}
