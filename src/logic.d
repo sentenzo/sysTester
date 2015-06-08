@@ -48,7 +48,7 @@ class CheckTask {
         
         void    run() { 
             LoggedAnswer la;
-            switch(_state.status) {
+            final switch(_state.status) {
                 case Status.Init:
                     la = _checker();
                     _state.info = la.log;
@@ -79,10 +79,6 @@ class CheckTask {
                     }
                     break;
                 case Status.Failed:
-                    _state.stuck = true;
-                    break;
-                default:
-                    _state.info = "Finite-state machine error!"d;
                     _state.stuck = true;
                     break;
             }
