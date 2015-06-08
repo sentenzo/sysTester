@@ -1,4 +1,4 @@
-//module conductor;
+module conductor;
 
 import logic;
 import gui;

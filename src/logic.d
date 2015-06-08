@@ -85,49 +85,7 @@ class CheckTask {
                     _state.info = "Finite-state machine error!"d;
                     _state.stuck = true;
                     break;
-                
             }
             return; 
         } 
 }
-
-
-/*
-enum CheckStatuses {
-    None,
-    Passed,
-    Failed
-}
-
-class SystemCheck {
-    alias CheckResult = Tuple!(string, "info", bool, "stat");
-    string _name;
-    Nullable!CheckResult _result;
-    CheckResult delegate() _run; 
-    
-    public this(string name, CheckResult delegate() run) {
-        _name = name;
-        _run = run;
-    }
-    public this(string name, string command) {
-        _name = name;
-        _run = delegate CheckResult() {
-            auto cmd = executeShell(command);
-            if (cmd.status != 0) return tuple!("info", "stat")("Failed", false);
-            else                 return tuple!("info", "stat")(cmd.output, true);
-        }; 
-    }
-    public Tuple!(string, "name", string, "info", CheckStatuses, "chechStat") information() {
-        if (_result.isNull) 
-            return tuple!("name","info","chechStat")(_name, "", CheckStatuses.None);
-        else {
-            return tuple!("name","info","chechStat")(_name, _result.info
-                , _result.stat ? CheckStatuses.Passed : CheckStatuses.Failed);
-        }
-    }
-    public void run() {
-        _result = _run();
-    }
-}
-
-*/

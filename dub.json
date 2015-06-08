@@ -1,11 +1,11 @@
 {
-	"name": "checker",
-	"description": "Some system testing app",
+	"name": "sysTester",
+	"description": " Dlang GUI app for displaying some information about Windows OS (probably worthless stuff)",
 	"authors": ["sentenzo"],
     
     "targetPath": "bin",
     "targetType": "executable",
-    "targetName": "checker",
+    "targetName": "sysTester",
     
     "stringImportPaths": [
         "res",
