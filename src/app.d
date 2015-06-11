@@ -21,8 +21,8 @@ extern (C) int UIAppMain(string[] args) {
     //gui.addChecks(wArr);
     //gui.addSettings((new TextWidget()).text("settings"d) );
     
-    gui.addChecks(conductor.getTiles("checks"));
-    gui.addSettings(conductor.getTiles("settings"));
+    //gui.addChecks(conductor.getTiles("checks"));
+    //gui.addSettings(conductor.getTiles("settings"));
     
     return Platform.instance.enterMessageLoop();
 }
