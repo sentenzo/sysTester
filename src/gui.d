@@ -3,15 +3,16 @@ module gui;
 import dlangui;
 import std.random;
 
-static Window window;
-static MainWidget mW = null;
+Window window;
+MainWidget _mW = null;
+@property MainWidget mainWidget() { return MainWidget.getInst(); }
 
 class MainWidget : VerticalLayout {
     Widget _tab1, _tab2;
     public static MainWidget getInst() {
-        if(mW is null) 
-            mW = new MainWidget("mW");
-        return mW;
+        if(_mW is null) 
+            _mW = new MainWidget("mW");
+        return _mW;
     }
     private this(string ID) {
         super(ID);
@@ -44,8 +45,14 @@ class MainWidget : VerticalLayout {
             .margins(Rect(20,20,20,20))
                 .maxWidth(200);
         btnExit.click = delegate(Widget w) {
-            Platform.instance.closeWindow(window);//window.close();
-            //window.update(true);
+
+            window.close();
+            
+            version(Windows) { //dirty hack for Windows
+                window = null;
+                window.update(true);
+            }
+            
 			return true;
         };
         HorizontalLayout hlayout = (new HorizontalLayout());
@@ -56,6 +63,16 @@ class MainWidget : VerticalLayout {
         addChild(tabs)
             .addChild(hlayout);
     }
+    public void addChecks(Widget w) { _tab1.addChild(w); }
+    public void addSettings(Widget w) { _tab2.addChild(w); }
+    public void addChecks(Widget[] w) {
+        foreach(Widget e; w)
+            addChecks(e);
+    }
+    public void addSettings(Widget[] w) {
+        foreach(Widget e; w)
+            addSettings(e);
+    }
 }
 
 public static void init() {
@@ -65,8 +82,8 @@ public static void init() {
 
 public static void showMainWindow() {
     window = Platform.instance
-        .createWindow("sysTester", null, WindowFlag.Resizable, 300, 150);
-    window.mainWidget = MainWidget.getInst();//new MainWidget("mw");
+        .createWindow("sysTester", null, WindowFlag.Resizable, 385, 380);
+    window.mainWidget = mainWidget;//MainWidget.getInst();//new MainWidget("mw");
     window.onCanClose =  delegate bool() { return true; };
     window.show();
 }
