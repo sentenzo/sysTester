@@ -6,8 +6,11 @@ import gui;
 import std.json;
 import std.conv;
 
+import std.file;//, std.path;
 
-string jsonStr = `
+static immutable string defConfFileName = "sysTester.config.json";
+
+string defJsonStr = `
 {
     "checks": 
     [
@@ -46,7 +49,11 @@ string jsonStr = `
 `;
 
 public Widget[] getTiles(string sectionName) {
-    JSONValue j = parseJSON(jsonStr);
+    JSONValue j = parseJSON(
+        exists(defConfFileName) ?
+        to!string(read("sysTester.config.json"))[3..$] :
+        defJsonStr
+    );
     auto jArr = j[sectionName].array;
     Widget[] ret = new Widget[jArr.length];
     for(int i=0; i<jArr.length; i++)
