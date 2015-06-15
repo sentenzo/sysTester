@@ -7,17 +7,17 @@
             "checkMask": "dd\\.dd\\.dddd"
         },
         {
-            "name": "checkTest0",
-            "checkCmd": "date /t",
-            "checkMask": "dd\\.dd\\.dddd"
-        },
-        {
-            "name": "checkTest0",
-            "checkCmd": "date /t",
-            "checkMask": "dd\\.dd\\.dddd"
-        },
-        {
             "name": "checkTest1",
+            "checkCmd": "date /t",
+            "checkMask": "dd\\.dd\\.dddd"
+        },
+        {
+            "name": "checkTest2",
+            "checkCmd": "date /t",
+            "checkMask": "dd\\.dd\\.dddd"
+        },
+        {
+            "name": "checkTest3",
             "checkCmd": "time /t",
             "checkMask": "dd\\:dd"
         }

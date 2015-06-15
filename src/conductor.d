@@ -6,7 +6,9 @@ import gui;
 import std.json;
 import std.conv;
 
-import std.file;//, std.path;
+import std.array : replace;
+
+import std.file;
 
 static immutable string defConfFileName = "sysTester.config.json";
 
@@ -51,7 +53,7 @@ string defJsonStr = `
 public Widget[] getTiles(string sectionName) {
     JSONValue j = parseJSON(
         exists(defConfFileName) ?
-        to!string(read("sysTester.config.json"))[3..$] :
+        to!string(read(defConfFileName))[3..$] :
         defJsonStr
     );
     auto jArr = j[sectionName].array;
@@ -61,11 +63,22 @@ public Widget[] getTiles(string sectionName) {
     return ret;
 }
 
+
 private Widget makeTile(JSONValue node) {
-    logic.CheckTask cht = new CheckTask(to!dstring(node["name"]), null, null);
+    auto ds = delegate dstring (string s) { return to!dstring(node[s].str).replace(`\/`, `/`); };
+    auto s  = delegate string  (string s) { return to!string(node[s].str).replace(`\/`, `/`); };
+    //logic.CheckTask cht = new CheckTask(ds("name"), null);
+    logic.CheckTask cht = new CheckTask(ds("name"), s("checkCmd"), s("checkMask"));
     Widget tName = (new TextWidget()).text(cht.getName());
     Widget tInfo = (new EditLine()).readOnly(true).text(cht.getInfo());
     ImageButton iButton = new ImageButton("ib0", "folder");
+    iButton.click = delegate(Widget w) {
+        cht.run();
+        tInfo.text(cht.getInfo());
+        return true;
+    };
+    
+    
     
     HorizontalLayout hla = new HorizontalLayout();
     VerticalLayout vla = new VerticalLayout();
