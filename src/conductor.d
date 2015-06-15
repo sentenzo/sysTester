@@ -6,13 +6,11 @@ import gui;
 import std.json;
 import std.conv;
 
-import std.array : replace;
-
-import std.file, std.utf;
+import std.file, std.array : replace;
 
 static immutable string defConfFileName = "sysTester.config.json";
 
-string defJsonStr = `{
+static immutable string defJsonStr = `{
     "checks": 
     [
         {
@@ -53,7 +51,10 @@ public Widget[] getTiles(string sectionName) {
         exists(defConfFileName) ?
         to!string(read(defConfFileName))[3..$] :
         ({ 
-            std.file.write(defConfFileName, cast(byte[])([0xef, 0xbb, 0xbf]));
+            std.file.write(
+                defConfFileName
+                , cast(byte[])([0xef, 0xbb, 0xbf]) // byte order mark (BOM) for Unicode
+            ); 
             std.file.append(defConfFileName, defJsonStr);
             return defJsonStr;
         })() 
