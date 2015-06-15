@@ -8,12 +8,11 @@ import std.conv;
 
 import std.array : replace;
 
-import std.file;
+import std.file, std.utf;
 
 static immutable string defConfFileName = "sysTester.config.json";
 
-string defJsonStr = `
-{
+string defJsonStr = `{
     "checks": 
     [
         {
@@ -47,14 +46,18 @@ string defJsonStr = `
             "settMask": "dd\\:d[02468]"
         }
     ]
-}
-`;
+}`;
 
 public Widget[] getTiles(string sectionName) {
     JSONValue j = parseJSON(
         exists(defConfFileName) ?
         to!string(read(defConfFileName))[3..$] :
-        defJsonStr
+        ({ 
+            std.file.write(defConfFileName, cast(byte[])([0xef, 0xbb, 0xbf]));
+            std.file.append(defConfFileName, defJsonStr);
+            return defJsonStr;
+        })() 
+        // functional functionality :D
     );
     auto jArr = j[sectionName].array;
     Widget[] ret = new Widget[jArr.length];
