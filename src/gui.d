@@ -9,6 +9,7 @@ MainWidget _mW = null;
 
 class MainWidget : VerticalLayout {
     Widget _tab1, _tab2;
+    TextWidget _dbg_out;
     public static MainWidget getInst() {
         if(_mW is null) 
             _mW = new MainWidget("mW");
@@ -60,6 +61,9 @@ class MainWidget : VerticalLayout {
         hlayout.addChild(btnLights);
         hlayout.addChild(btnExit);
         
+        _dbg_out = new TextWidget("dbg_out", "TextWidget dbg_out"d);
+        hlayout.addChild(_dbg_out);
+        
         addChild(tabs)
             .addChild(hlayout);
     }
@@ -72,6 +76,10 @@ class MainWidget : VerticalLayout {
     public void addSettings(Widget[] w) {
         foreach(Widget e; w)
             addSettings(e);
+    }
+    
+    public void dbg_out(dstring s) {
+        _dbg_out.text(s);
     }
 }
 

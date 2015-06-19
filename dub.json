@@ -14,7 +14,8 @@
     ],
     
 	"dependencies": {
-		"dlangui": "~>0.6.32"
+		"dlangui": "~>0.6.32",
+        "luad": "~master"
 	},
     "sourceFiles-windows": ["$PACKAGE_DIR/res/win_app.def"]
 }
