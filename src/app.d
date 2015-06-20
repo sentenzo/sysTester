@@ -4,11 +4,9 @@ import dlangui;
 import gui;
 import conductor;
 
-import luad.all;
-
 mixin APP_ENTRY_POINT;
 
-import std.conv:to;
+import lua;
 
 extern (C) int UIAppMain(string[] args) {
     //Log.setStderrLogger();
@@ -20,12 +18,12 @@ extern (C) int UIAppMain(string[] args) {
     gui.mainWidget.addChecks(conductor.getTiles("checks"));
     gui.mainWidget.addSettings(conductor.getTiles("settings"));
     
-    auto lua = new LuaState;
-    lua.openLibs();
-    lua.doString(`out = "Hello, world!";`);
+    //auto lua = new LuaState();
+    //lua.openLibs();
+    //lua.doString(`out = "Hello, world!";`);
     
     
-    gui.mainWidget.dbg_out(to!dstring(lua.globals["out"]));
+    gui.mainWidget.dbg_out(lua.Config.hello_world_from_file());
     
     return Platform.instance.enterMessageLoop();
 }
