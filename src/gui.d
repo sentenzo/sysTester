@@ -9,7 +9,7 @@ MainWidget _mW = null;
 
 class MainWidget : VerticalLayout {
     Widget _tab1, _tab2;
-    TextWidget _dbg_out;
+    SourceEdit _dbg_out;
     public static MainWidget getInst() {
         if(_mW is null) 
             _mW = new MainWidget("mW");
@@ -61,11 +61,13 @@ class MainWidget : VerticalLayout {
         hlayout.addChild(btnLights);
         hlayout.addChild(btnExit);
         
-        _dbg_out = new TextWidget("dbg_out", "TextWidget dbg_out"d);
-        hlayout.addChild(_dbg_out);
+        _dbg_out = new SourceEdit("dbg_out");
+        _dbg_out.text = "TextWidget dbg_out"d;
+        //hlayout
         
         addChild(tabs)
             .addChild(hlayout);
+        addChild(_dbg_out);
     }
     public void addChecks(Widget w) { _tab1.addChild(w); }
     public void addSettings(Widget w) { _tab2.addChild(w); }
