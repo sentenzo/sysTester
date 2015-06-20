@@ -1,9 +1,12 @@
 ﻿module lua;
 
 import luad.all;
-import std.conv:to;
+import std.conv;
 
 import std.file, std.array : replace;
+
+import std.encoding;
+import std.windows.charset;
 
 class Config {
     static: 
@@ -41,11 +44,11 @@ class Config {
                     to!dstring(lua.globals["out"]);
         }
         
-        public dstring get_out(string lua_code) {
+        public T get_out(T = dstring)(string lua_code) {
             lua = new LuaState();
             lua.openLibs();
             lua.doString(lua_code);
-            return to!dstring(lua.globals["out"]);
+            return to!T(lua.globals["out"]);
         }
         
         
@@ -70,7 +73,7 @@ out = file_found
             string lua_code = `
 
             `;
-            return get_out(lua_code.replace("%dir_name%", dir_name));
+            return get_out!dstring(lua_code.replace("%dir_name%", dir_name));
         }
         
         public dstring get_cmd_output(string cmd_text) {
@@ -78,6 +81,7 @@ out = file_found
 function getCmdOutput(command)
   local ret = "";
   local tmpfile = 'tmp_cmd_out.txt'
+  --os.execute('chcp 65001')
   os.execute(command..' > '..tmpfile)
   local f = io.open(tmpfile)
   if not f then return files end  
@@ -90,8 +94,23 @@ function getCmdOutput(command)
 end
 out = getCmdOutput("%cmd_text%")
             `;
-            return get_out(lua_code.replace("%cmd_text%", cmd_text));
+            string s = 
+            /*/
+            get_out!string(lua_code.replace("%cmd_text%", cmd_text))
+            /*/
+            fixEncoding(
+                get_out!string(lua_code.replace("%cmd_text%", cmd_text)),
+                866, 65001
+            )
+            //*/
+            ;
+            return dtext(s);
+            
         }
         
+        private string fixEncoding(string s, int cpFrom, int cpTo) {
+            auto sToBytes = cast(immutable)toMBSz(s,cpFrom);
+            return fromMBSz(sToBytes,cpTo);
+        }
     }
 }

@@ -23,7 +23,7 @@ extern (C) int UIAppMain(string[] args) {
     //lua.doString(`out = "Hello, world!";`);
     
     
-    gui.mainWidget.dbg_out(lua.Config.Testing.get_cmd_output(`ls -1`));
+    gui.mainWidget.dbg_out(lua.Config.Testing.get_cmd_output(`dir`));
     
     return Platform.instance.enterMessageLoop();
 }

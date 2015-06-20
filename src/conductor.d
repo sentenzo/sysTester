@@ -1,4 +1,4 @@
-module conductor;
+﻿module conductor;
 
 import dlangui;
 import logic;

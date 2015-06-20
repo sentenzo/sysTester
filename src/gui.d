@@ -1,4 +1,4 @@
-module gui;
+﻿module gui;
 
 import dlangui;
 import std.random;
