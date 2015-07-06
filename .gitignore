@@ -7,3 +7,4 @@ __dummy.html
 bin
 dub.selection.json
 *.exe
+tmp_*
