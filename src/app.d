@@ -2,7 +2,6 @@ module main;
 
 import dlangui;
 import gui;
-import conductor;
 
 mixin APP_ENTRY_POINT;
 
