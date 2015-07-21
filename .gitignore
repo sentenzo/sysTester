@@ -6,4 +6,7 @@ __dummy.html
 *.log
 bin
 dub.selection.json
+dub.selection*
 *.exe
+.brackets.json
+tmp_*

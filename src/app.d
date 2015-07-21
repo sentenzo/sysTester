@@ -1,4 +1,4 @@
-﻿module main;
+module main;
 
 import dlangui;
 import gui;
@@ -13,8 +13,8 @@ extern (C) int UIAppMain(string[] args) {
     gui.init();
     gui.showMainWindow();
     
-    gui.mainWidget.addChecks(conductor.getTiles("checks"));
-    gui.mainWidget.addSettings(conductor.getTiles("settings"));
+    //gui.mainWidget.addChecks(conductor.getTiles("checks"));
+    //gui.mainWidget.addSettings(conductor.getTiles("settings"));
     
     return Platform.instance.enterMessageLoop();
 }
