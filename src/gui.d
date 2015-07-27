@@ -13,12 +13,8 @@ CheckerWidget[] cwArr;
 
 class CheckerWidget : //VerticalLayout { 
     TableLayout {
-    static __objCount = 0;
-    //dstring _title = "(check with no name)"d;
     int _num_check_stetus = 0;
-    //dstring _check_status = "none"d;
     int _num_fix_stetus = 0;
-    //dstring _fix_status = "none"d;
     
     TextWidget tw_title;
     TextWidget tw_checkStatus;
@@ -30,9 +26,10 @@ class CheckerWidget : //VerticalLayout {
     
     // debugging purposes
     public this() {
-        __objCount++;
-        // inits
-        super("id_" ~ to!string(__objCount));
+// ======
+// inits
+// ======
+        super();
         this.colCount = 2;
         tw_title = new TextWidget(null, "debug check"d);
         tw_checkStatus = new TextWidget(null, "none"d);
@@ -42,13 +39,9 @@ class CheckerWidget : //VerticalLayout {
         _num_check_stetus = _num_fix_stetus = 0;
         
         
-        // gui
-        this.backgroundColor(getRandColor());
-        
-
-        //this.addChild(new Button(null, "teeeeest"d));
-        
-        //*
+// ======
+// structure
+// ======
         // row 1
         this.addChild(
             (new TextWidget(null, "Title:"d))
@@ -73,32 +66,30 @@ class CheckerWidget : //VerticalLayout {
             btn_fix
             //.alignment(Align.Right | Align.VCenter)
         );
-        /*
-        ComboBox combo1 = new ComboBox(null
-                                    , ["item value 1"d, "item value 2"d
-                                    , "item value 3"d, "item value 4"d
-                                    , "item value 5"d, "item value 6"d]);
-        combo1.selectedItemIndex = 3;
-        this.addChild(combo1);
-        /*/
         this.addChild(
             tw_fixStatus
             .alignment(Align.Left | Align.VCenter)
         );
-        //*/
         
-        //logic
+// ======
+// styles 
+// ======
+        this.backgroundColor(getRandColor());
+        
+// ======
+// logic
+// ======
         _run_check = delegate() {
-            if(uniform(0,1)) 
-                return tuple(true, "dbgChech:True"d);
+            if(uniform(0,2)) 
+                return tuple(true, "dbgChech ::::: True"d);
             else 
-                return tuple(false, "dbgChech:False"d);
+                return tuple(false, "dbgChech ::::: False"d);
         };
         _run_fix = delegate() {
-            if(uniform(0,1)) 
-                return tuple(true, "dbgFix:True"d);
+            if(uniform(0,2)) 
+                return tuple(true, "dbgFix ::::: True"d);
             else 
-                return tuple(false, "dbgFix:False"d);
+                return tuple(false, "dbgFix ::::: False"d);
         };
         btn_fix.click = delegate(Widget w) {
             auto a = _run_fix();
@@ -117,46 +108,48 @@ class MainWidget : VerticalLayout {
     CheckerWidget[] checkList;
     
     VerticalLayout div0_mainContainer;
-    ListWidget div00_list;
-    WidgetListAdapter listAdapter;
+    ScrollWidget div00_scroller;
+    WidgetGroup div000_content;
     HorizontalLayout div01_btnContainer;
     FrameLayout div1_status;
     Button btnStart;
     Button btn2;
     
     public this(string ID) {
-        // inits
+// ======
+// inits
+// ======
         super(ID);
-        div0_mainContainer = new VerticalLayout("div0_mainContainer");
-        div00_list = new ListWidget();
-        listAdapter = new WidgetListAdapter();
+        div0_mainContainer = new VerticalLayout("div0_mainContainer");        
+        div00_scroller = new ScrollWidget(null, ScrollBarMode.Auto);
+        div000_content = new VerticalLayout();
         div01_btnContainer = new HorizontalLayout("div01_btnContainer");
         div1_status = new FrameLayout("div1_status");
         btnStart = new Button("btnStart", "btnStart"d);
         btn2 = new Button("btn2", "btn2"d);
         
         checkList = new CheckerWidget[10];
-        
-        //listAdapter.add(new Button(null, "teeeeest"d));
         foreach(CheckerWidget check; checkList) {
             check = new CheckerWidget();
-            listAdapter.add(check);
-            //listAdapter.add(new Button(null, "teeeeest"d));
+            div000_content.addChild(check);
         }
         
-        //listAdapter.resetItemState(0, State.Enabled);
         
         
-        //structure
+// ======
+// structure
+// ======
         this.addChild(div0_mainContainer);
-            div0_mainContainer.addChild(div00_list);
-                div00_list.ownAdapter = listAdapter;
+            div0_mainContainer.addChild(div00_scroller);
+                div00_scroller.contentWidget = div000_content;
             div0_mainContainer.addChild(div01_btnContainer);
                 div01_btnContainer.addChild(btnStart);
                 div01_btnContainer.addChild(btn2);
         this.addChild(div1_status);
         
-        // styles
+// ======
+// styles 
+// ======
         this
             .padding(Rect(10, 10, 10, 10))
             .margins(Rect(10, 10, 10, 10))
@@ -165,10 +158,14 @@ class MainWidget : VerticalLayout {
             .padding(Rect(10, 10, 10, 10))
             .margins(Rect(10, 10, 10, 10))
             .backgroundColor(getRandColor());
-        div00_list
+        div00_scroller
             .padding(Rect(10, 10, 10, 10))
             .margins(Rect(10, 10, 10, 10))
-            .layoutHeight(300).layoutWidth(350)
+            .layoutHeight(300) // makes height for the app itself
+            .backgroundColor(getRandColor());
+        div000_content
+            .layoutHeight(FILL_PARENT)
+            .layoutWidth(500) // makes width for the app itself
             .backgroundColor(getRandColor());
         div01_btnContainer
             .padding(Rect(10, 10, 10, 10))
