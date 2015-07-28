@@ -20,7 +20,7 @@ extern (C) int UIAppMain(string[] args) {
     gui.addCheck(logic.LDbg.getInitInfo);
     
     
-    /*
+    //*
     gui.addCheck();
     gui.addCheck(logic.LDbg.getInitInfo);
     gui.addCheck();
