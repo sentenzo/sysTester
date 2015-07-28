@@ -1,7 +1,12 @@
+/* 
+    #TODO: Make it work with optional debugging version 
+        (to turn on/off all the dbg backgroundColor in gui.d)
+*/
 module main;
 
 import dlangui;
 import gui;
+import logic;
 
 mixin APP_ENTRY_POINT;
 
@@ -12,8 +17,16 @@ extern (C) int UIAppMain(string[] args) {
     gui.init();
     gui.showMainWindow();
     
-    //gui.mainWidget.addChecks(conductor.getTiles("checks"));
-    //gui.mainWidget.addSettings(conductor.getTiles("settings"));
+    gui.addCheck(logic.LDbg.getInitInfo);
+    
+    
+    /*
+    gui.addCheck();
+    gui.addCheck(logic.LDbg.getInitInfo);
+    gui.addCheck();
+    gui.addCheck();
+    gui.addCheck();
+    //*/
     
     return Platform.instance.enterMessageLoop();
 }

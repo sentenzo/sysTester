@@ -1,5 +1,5 @@
+// TODO: Make seporate modules for classes CheckerWidget and MainWidget
 module gui;
-
 import dlangui;
 import std.random;
 
@@ -11,9 +11,9 @@ Window window;
 MainWidget _mW = null;
 //@property MainWidget mainWidget() { return MainWidget.getInst(); }
 
-CheckerWidget[] cwArr;
-
 alias _CheckRunner = Tuple!(bool, dstring) delegate();
+//return type for logic module methods to init ChW with one arg
+alias _InitChW = Tuple!(dstring, _CheckRunner, _CheckRunner);
 
 class CheckerWidget : //VerticalLayout { 
 TableLayout {
@@ -92,6 +92,10 @@ TableLayout {
             this.runFix();
             return true;
         };
+    }
+    
+    public this(_InitChW inChW) {
+        this(inChW[0], inChW[1], inChW[2]);
     }
     
     // debugging purposes
@@ -215,15 +219,15 @@ class MainWidget : VerticalLayout {
     public void addCheckerWidget(CheckerWidget chw) {
         div000_content.addChild(chw);
     }
-    public void addCheckerWidget(dstring title
+    /*public void addCheckerWidget(dstring title
                                  , _CheckRunner run_check
                                  , _CheckRunner run_fix = null) {
         CheckerWidget chw = new CheckerWidget(title, run_check
                                               , run_fix);
         div000_content.addChild(chw);
-    }
-    public void addCheckerWidget() {
-        div000_content.addChild(new CheckerWidget());
+    }*/
+    public void addCheckerWidget(E...)(E vals) {
+        div000_content.addChild(new CheckerWidget(vals));
     }
 }
 
@@ -232,11 +236,13 @@ public static void init() {
     embeddedResourceList
         .addResources(embedResourcesFromList!("resources.list")());
     
+    
     window = Platform.instance
         .createWindow("System check"d, null, WindowFlag.Modal);
     _mW = new MainWidget("mW"); //mainWidget
     window.mainWidget = _mW;
 
+    /*
     CheckerWidget chw = new CheckerWidget();
     addCheck(chw);
     
@@ -252,6 +258,7 @@ public static void init() {
     addCheck();
     addCheck();
     addCheck();
+    //*/
 }
 
 public static void showMainWindow() {
