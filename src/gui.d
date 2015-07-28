@@ -11,6 +11,8 @@ MainWidget _mW = null;
 
 CheckerWidget[] cwArr;
 
+alias _CheckRunner = Tuple!(bool, dstring) delegate();
+
 class CheckerWidget : //VerticalLayout { 
 TableLayout {
     int _num_check_status = 0;
@@ -20,8 +22,6 @@ TableLayout {
     TextWidget tw_checkStatus;
     TextWidget tw_fixStatus;
     Button btn_fix;
-    
-    alias _CheckRunner = Tuple!(bool, dstring) delegate();
     
     _CheckRunner _run_check;
     _CheckRunner _run_fix;
@@ -64,15 +64,17 @@ TableLayout {
             tw_checkStatus
             .alignment(Align.Left | Align.VCenter)
         );
-        // row 3
-        this.addChild(
-            btn_fix
-            //.alignment(Align.Right | Align.VCenter)
-        );
-        this.addChild(
-            tw_fixStatus
-            .alignment(Align.Left | Align.VCenter)
-        );
+        if(!(run_fix is null)) {
+            // row 3
+            this.addChild(
+                btn_fix
+                //.alignment(Align.Right | Align.VCenter)
+            );
+            this.addChild(
+                tw_fixStatus
+                .alignment(Align.Left | Align.VCenter)
+            );
+        }
         
 // ======
 // styles 
@@ -98,12 +100,16 @@ TableLayout {
             else 
                 return tuple(false, "dbgChech ::::: False"d);
         };
-        _CheckRunner run_fix = delegate() {
-            if(uniform(0,2)) 
-                return tuple(true, "dbgFix ::::: True"d);
-            else 
-                return tuple(false, "dbgFix ::::: False"d);
-        };
+        
+        _CheckRunner run_fix = null; //not all the checks are fixable
+        if(uniform(0,2)) {
+            run_fix = delegate() {
+                if(uniform(0,2)) 
+                    return tuple(true, "dbgFix ::::: True"d);
+                else 
+                    return tuple(false, "dbgFix ::::: False"d);
+            };
+        }
         this("debug check"d, run_check, run_fix);
         //btn_fix.enabled(true);
     }
@@ -112,8 +118,10 @@ TableLayout {
         auto a = _run_check();
         _num_check_status = a[0]?1:-1;
         tw_checkStatus.text = a[1];
-        if(_num_check_status == -1) {
+        if(_num_check_status == -1 && !(_run_fix is null)) {
             btn_fix.enabled(true);
+        } else {
+            btn_fix.enabled(false);
         }
         return;
     }
@@ -127,7 +135,7 @@ TableLayout {
 }
 
 class MainWidget : VerticalLayout {
-    CheckerWidget[] checkList;
+    //CheckerWidget[] checkList;
     
     VerticalLayout div0_mainContainer;
     ScrollWidget div00_scroller;
@@ -147,14 +155,8 @@ class MainWidget : VerticalLayout {
         div000_content = new VerticalLayout();
         div01_btnContainer = new HorizontalLayout("div01_btnContainer");
         div1_status = new FrameLayout("div1_status");
-        btnStart = new Button("btnStart", "btnStart"d);
+        btnStart = new Button("btnStart", "Start"d);
         btn2 = new Button("btn2", "dbg"d);
-        
-        checkList = new CheckerWidget[8];
-        foreach(CheckerWidget check; checkList) {
-            check = new CheckerWidget();
-            div000_content.addChild(check);
-        }
 // ======
 // structure
 // ======
@@ -197,7 +199,7 @@ class MainWidget : VerticalLayout {
 // ======
 // logic
 // ======
-        btn2.click = delegate(Widget w) {
+        btnStart.click = delegate(Widget w) {
             for(int i = 0; i < div000_content.childCount(); i++) {
                 CheckerWidget chw 
                     = cast(CheckerWidget)div000_content.child(i);
@@ -207,19 +209,43 @@ class MainWidget : VerticalLayout {
         };
         
     }
+    
+    public void addCheckerWidget(CheckerWidget chw) {
+        div000_content.addChild(chw);
+    }
+    public void addCheckerWidget(dstring title
+                                 , _CheckRunner run_check
+                                 , _CheckRunner run_fix = null) {
+        CheckerWidget chw = new CheckerWidget(title, run_check
+                                              , run_fix);
+        div000_content.addChild(chw);
+    }
+    public void addCheckerWidget() {
+        div000_content.addChild(new CheckerWidget());
+    }
 }
 
 
 public static void init() {
     embeddedResourceList
         .addResources(embedResourcesFromList!("resources.list")());
+    
+    window = Platform.instance
+        .createWindow("System check"d, null, WindowFlag.Modal);
+    MainWidget mW = new MainWidget("mW"); //mainWidget
+    window.mainWidget = mW;
+    
+    mW.addCheckerWidget();
+    mW.addCheckerWidget();
+    mW.addCheckerWidget();
+    mW.addCheckerWidget();
+    mW.addCheckerWidget();
+    mW.addCheckerWidget();
+    
 }
 
 public static void showMainWindow() {
-    window = Platform.instance
-        .createWindow("System check"d, null, WindowFlag.Modal);
-
-    window.mainWidget = new MainWidget("mW");//mainWidget;
+    
     
     window.show();
 }
