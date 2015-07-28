@@ -5,6 +5,8 @@ import std.random;
 
 import std.typecons;
 
+import core.vararg;
+
 Window window;
 MainWidget _mW = null;
 //@property MainWidget mainWidget() { return MainWidget.getInst(); }
@@ -232,22 +234,32 @@ public static void init() {
     
     window = Platform.instance
         .createWindow("System check"d, null, WindowFlag.Modal);
-    MainWidget mW = new MainWidget("mW"); //mainWidget
-    window.mainWidget = mW;
+    _mW = new MainWidget("mW"); //mainWidget
+    window.mainWidget = _mW;
+
+    CheckerWidget chw = new CheckerWidget();
+    addCheck(chw);
     
-    mW.addCheckerWidget();
-    mW.addCheckerWidget();
-    mW.addCheckerWidget();
-    mW.addCheckerWidget();
-    mW.addCheckerWidget();
-    mW.addCheckerWidget();
+    _CheckRunner run_check = delegate() {
+        if(uniform(0,2)) 
+            return tuple(true, "dbgChech ::::: True"d);
+        else 
+            return tuple(false, "dbgChech ::::: False"d);
+    };
+    addCheck("kkk"d, run_check, null);
     
+    addCheck();
+    addCheck();
+    addCheck();
+    addCheck();
 }
 
 public static void showMainWindow() {
-    
-    
     window.show();
+}
+
+public static addCheck(E...)(E vals) {
+    _mW.addCheckerWidget(vals);
 }
 
 uint getRandColor() {
