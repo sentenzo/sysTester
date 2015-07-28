@@ -1,20 +1,20 @@
-// TODO: Seporate modules for every CheckLogic class
-module logic;
+module logic.ldbg;
 
-import gui:_CheckRunner, _InitChW;
+import logic;
 
 import std.typecons;
-import std.process;
-
-import std.regex;
-import std.conv;
 import std.random;
 
-interface CheckLogic {
-    public static _InitChW getInitInfo();
-}
-
+//*
 class LDbg : CheckLogic {
+    static this() {
+        LogicList.addLogic!LDbg;
+        LogicList.addLogic!LDbg;
+        LogicList.addLogic!LDbg;
+        LogicList.addLogic!LDbg;
+        LogicList.addLogic!LDbg;
+        LogicList.addLogic!LDbg;
+    }
     public static _InitChW getInitInfo() {
         dstring title = "class LDbg : CheckLogic"d;
         _CheckRunner run_check = delegate() {
@@ -36,3 +36,4 @@ class LDbg : CheckLogic {
     }
 }
 
+//*/

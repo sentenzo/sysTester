@@ -6,7 +6,9 @@ module main;
 
 import dlangui;
 import gui;
-import logic;
+//import logic;
+
+import logic.ldbg;
 
 mixin APP_ENTRY_POINT;
 
@@ -17,10 +19,15 @@ extern (C) int UIAppMain(string[] args) {
     gui.init();
     gui.showMainWindow();
     
-    gui.addCheck(logic.LDbg.getInitInfo);
+    foreach(_InitChW x; logic.LogicList._list) {
+        gui.addCheck(x);
+    }
     
     
-    //*
+    //gui.addCheck(LDbg.getInitInfo);
+    
+    
+    /*
     gui.addCheck();
     gui.addCheck(logic.LDbg.getInitInfo);
     gui.addCheck();
