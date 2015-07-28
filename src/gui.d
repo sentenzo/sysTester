@@ -12,31 +12,34 @@ MainWidget _mW = null;
 CheckerWidget[] cwArr;
 
 class CheckerWidget : //VerticalLayout { 
-    TableLayout {
-    int _num_check_stetus = 0;
-    int _num_fix_stetus = 0;
+TableLayout {
+    int _num_check_status = 0;
+    int _num_fix_status = 0;
     
     TextWidget tw_title;
     TextWidget tw_checkStatus;
     TextWidget tw_fixStatus;
     Button btn_fix;
     
-    Tuple!(bool, dstring) delegate() _run_check;
-    Tuple!(bool, dstring) delegate() _run_fix;
+    alias _CheckRunner = Tuple!(bool, dstring) delegate();
     
-    // debugging purposes
-    public this() {
+    _CheckRunner _run_check;
+    _CheckRunner _run_fix;
+    
+    public this(dstring title
+                , _CheckRunner run_check
+                , _CheckRunner run_fix = null) {
 // ======
 // inits
 // ======
         super();
         this.colCount = 2;
-        tw_title = new TextWidget(null, "debug check"d);
-        tw_checkStatus = new TextWidget(null, "none"d);
-        tw_fixStatus = new TextWidget(null, "none"d);
+        tw_title = new TextWidget(null, title);
+        tw_checkStatus = new TextWidget(null, "-"d);
+        tw_fixStatus = new TextWidget(null, "-"d);
         btn_fix = new Button(null, "fix"d);
-        //btn_fix.enabled(false);
-        _num_check_stetus = _num_fix_stetus = 0;
+        btn_fix.enabled(false);
+        _num_check_status = _num_fix_status = 0;
         
         
 // ======
@@ -79,28 +82,47 @@ class CheckerWidget : //VerticalLayout {
 // ======
 // logic
 // ======
-        _run_check = delegate() {
+        _run_check = run_check;
+        _run_fix = run_fix;
+        btn_fix.click = delegate(Widget w) {
+            this.runFix();
+            return true;
+        };
+    }
+    
+    // debugging purposes
+    public this() {
+        _CheckRunner run_check = delegate() {
             if(uniform(0,2)) 
                 return tuple(true, "dbgChech ::::: True"d);
             else 
                 return tuple(false, "dbgChech ::::: False"d);
         };
-        _run_fix = delegate() {
+        _CheckRunner run_fix = delegate() {
             if(uniform(0,2)) 
                 return tuple(true, "dbgFix ::::: True"d);
             else 
                 return tuple(false, "dbgFix ::::: False"d);
         };
-        btn_fix.click = delegate(Widget w) {
-            auto a = _run_fix();
-            _num_fix_stetus = a[0];
-            tw_fixStatus.text = a[1];
-            return true;
-        };
-        
+        this("debug check"d, run_check, run_fix);
+        //btn_fix.enabled(true);
     }
     
-    
+    public void runCheck() {
+        auto a = _run_check();
+        _num_check_status = a[0]?1:-1;
+        tw_checkStatus.text = a[1];
+        if(_num_check_status == -1) {
+            btn_fix.enabled(true);
+        }
+        return;
+    }
+    public void runFix() {
+        auto a = _run_fix();
+        _num_fix_status = a[0]?1:-1;
+        tw_fixStatus.text = a[1];
+        return;
+    }
     
 }
 
@@ -126,16 +148,13 @@ class MainWidget : VerticalLayout {
         div01_btnContainer = new HorizontalLayout("div01_btnContainer");
         div1_status = new FrameLayout("div1_status");
         btnStart = new Button("btnStart", "btnStart"d);
-        btn2 = new Button("btn2", "btn2"d);
+        btn2 = new Button("btn2", "dbg"d);
         
-        checkList = new CheckerWidget[10];
+        checkList = new CheckerWidget[8];
         foreach(CheckerWidget check; checkList) {
             check = new CheckerWidget();
             div000_content.addChild(check);
         }
-        
-        
-        
 // ======
 // structure
 // ======
@@ -146,7 +165,6 @@ class MainWidget : VerticalLayout {
                 div01_btnContainer.addChild(btnStart);
                 div01_btnContainer.addChild(btn2);
         this.addChild(div1_status);
-        
 // ======
 // styles 
 // ======
@@ -176,6 +194,17 @@ class MainWidget : VerticalLayout {
             .margins(Rect(10, 10, 10, 10))
             .backgroundColor(getRandColor());
         
+// ======
+// logic
+// ======
+        btn2.click = delegate(Widget w) {
+            for(int i = 0; i < div000_content.childCount(); i++) {
+                CheckerWidget chw 
+                    = cast(CheckerWidget)div000_content.child(i);
+                chw.runCheck();
+            }
+            return true;
+        };
         
     }
 }
