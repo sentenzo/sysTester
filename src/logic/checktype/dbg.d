@@ -1,4 +1,4 @@
-module logic.ldbg;
+module logic.checktype.dbg;
 
 import logic;
 
@@ -6,14 +6,16 @@ import std.typecons;
 import std.random;
 
 //*
-class LDbg : CheckLogic {
+static class LDbg : CheckLogic {
     static this() {
         LogicList.addLogic!LDbg;
+        //*
         LogicList.addLogic!LDbg;
         LogicList.addLogic!LDbg;
         LogicList.addLogic!LDbg;
         LogicList.addLogic!LDbg;
         LogicList.addLogic!LDbg;
+        //*/
     }
     public static _InitChW getInitInfo() {
         dstring title = "class LDbg : CheckLogic"d;

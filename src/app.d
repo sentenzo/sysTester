@@ -6,9 +6,9 @@ module main;
 
 import dlangui;
 import gui;
-//import logic;
+import logic;
 
-import logic.ldbg;
+//import logic.ldbg;
 
 mixin APP_ENTRY_POINT;
 
