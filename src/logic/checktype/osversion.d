@@ -14,6 +14,9 @@ Caption=Microsoft Windows 7 Home Premium
 CSDVersion=Service Pack 1
 */
 static class OsVersion : CheckLogic {
+    static this() {
+        LogicList.addLogic!OsVersion;
+    }
 // NOTE: This rExStr rule needs to be checked 
     static string rExStr = 
         `Windows ([7,8]|XP Professional|Server (2003|2008 R2|2012))`;
@@ -25,9 +28,6 @@ Windows Server 2008 R2
 Windows Server 2003
 Windows Server 2012
 */
-    static this() {
-        LogicList.addLogic!OsVersion;
-    }
     public static _InitChW getInitInfo() {
         dstring title = "OS version"d;
         _CheckRunner run_check = delegate() {

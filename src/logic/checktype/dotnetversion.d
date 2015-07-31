@@ -12,11 +12,11 @@ C:\Users\User>reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5"| 
 */
 
 static class DotNetVersion : CheckLogic {
-    static string rExStr = 
-        `Install\s+REG_DWORD\s+0x1`;
     static this() {
         LogicList.addLogic!DotNetVersion;
     }
+    static string rExStr = 
+        `Install\s+REG_DWORD\s+0x1`;
     public static _InitChW getInitInfo() {
         dstring title = ".Net version"d;
         _CheckRunner run_check = delegate() {

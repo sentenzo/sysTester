@@ -24,6 +24,7 @@ class LogicList {
 // some helpful stuff for checking purposes
 // ======
 
+// NOTE: Where to cast string to dstring? Here or in checktype.*?
 struct Report {
     bool answer;
     string comments;
@@ -38,3 +39,4 @@ Report checkCmd(string cmdStr, string rExStr, string rExFlags = "") {
         return Report(true, cmd.output);
     }
 }
+

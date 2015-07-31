@@ -8,7 +8,7 @@ import std.random;
 //*
 static class LDbg : CheckLogic {
     static this() {
-        LogicList.addLogic!LDbg;
+        /*LogicList.addLogic!LDbg;
         //*
         LogicList.addLogic!LDbg;
         LogicList.addLogic!LDbg;
