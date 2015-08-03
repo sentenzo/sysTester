@@ -1,5 +1,4 @@
-// TODO: [x] Seporate modules for every CheckLogic class
-// TODO: How to make this package architecture better??
+// NOTE: How to make this package architecture better??
 module logic;
 
 import gui:_CheckRunner, _InitChW;

@@ -1,4 +1,3 @@
-//TODO: [x] Make seporate modules for classes CheckerWidget and MainWidget
 module gui;
 
 import gui.checker, gui.mwidget;
@@ -32,7 +31,6 @@ public static void showMainWindow() {
     window.show();
 }
 
-//TODO: [x] Scrollbar needs to be redrowen after addCheck
 public static addCheck(E...)(E vals) {
     _mW.addChecker(vals);
 }

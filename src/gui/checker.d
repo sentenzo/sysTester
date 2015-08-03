@@ -2,6 +2,8 @@ module gui.checker;
 
 import gui: _CheckRunner, _InitChW, getRandColor;
 
+import std.algorithm.iteration:each;
+
 import dlangui;
 import std.random;
 
@@ -48,11 +50,9 @@ class Checker : TableLayout {
 // ======
 // structure
 // ======
-// TODO: Move all aligment to the styles section
         // row 1
         this.addChild(
             iw_title
-            .alignment(Align.Center)
         );
         this.addChild(
             (new TextWidget(null, "Title:"d))
@@ -65,7 +65,6 @@ class Checker : TableLayout {
         // row 2
         this.addChild(
             iw_checkStatus
-            .alignment(Align.Center)
         );
         this.addChild(
             (new TextWidget(null, "Status:"d))
@@ -79,7 +78,6 @@ class Checker : TableLayout {
             // row 3
             this.addChild(
                 iw_fixStatus
-                .alignment(Align.Center)
             );
             this.addChild(
                 btn_fix
@@ -95,7 +93,9 @@ class Checker : TableLayout {
 // styles 
 // ======
         this.backgroundColor(getRandColor());
-        
+        ([iw_title, iw_checkStatus, iw_fixStatus])
+            .each!(x => x.alignment(Align.Center));
+
 // ======
 // logic
 // ======
