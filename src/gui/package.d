@@ -30,7 +30,7 @@ public static void showMainWindow() {
     window.show();
 }
 
-//TODO: Scrollbar needs to be redrowen after addCheck
+//TODO: [x] Scrollbar needs to be redrowen after addCheck
 public static addCheck(E...)(E vals) {
     _mW.addChecker(vals);
 }

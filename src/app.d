@@ -17,24 +17,12 @@ extern (C) int UIAppMain(string[] args) {
     //Log.setLogLevel(LogLevel.Fatal);
     
     gui.init();
-    gui.showMainWindow();
     
     foreach(_InitChW x; logic.LogicList._list) {
         gui.addCheck(x);
     }
     
-    
-    //gui.addCheck(LDbg.getInitInfo);
-    
-    
-    /*
-    gui.addCheck();
-    gui.addCheck(logic.LDbg.getInitInfo);
-    gui.addCheck();
-    gui.addCheck();
-    gui.addCheck();
-    //*/
-    
+    gui.showMainWindow();
     return Platform.instance.enterMessageLoop();
 }
 
