@@ -16,6 +16,10 @@ class Checker : TableLayout {
     TextWidget tw_fixStatus;
     Button btn_fix;
     
+    ImageWidget iw_title;
+    ImageWidget iw_checkStatus;
+    ImageWidget iw_fixStatus;
+    
     _CheckRunner _run_check;
     _CheckRunner _run_fix;
     
@@ -26,19 +30,30 @@ class Checker : TableLayout {
 // inits
 // ======
         super();
-        this.colCount = 2;
+        this.colCount = 3;
         tw_title = new TextWidget(null, title);
         tw_checkStatus = new TextWidget(null, "-"d);
         tw_fixStatus = new TextWidget(null, "-"d);
         btn_fix = new Button(null, "fix"d);
         btn_fix.enabled(false);
         _num_check_status = _num_fix_status = 0;
+        iw_title = (new ImageWidget());
+            //.drawableId("information-button"); 
+        iw_checkStatus = (new ImageWidget())
+            .drawableId("gear_16"); 
+        iw_fixStatus = (new ImageWidget());
+            //.drawableId("information-button"); 
         
         
 // ======
 // structure
 // ======
+// TODO: Move all aligment to the styles section
         // row 1
+        this.addChild(
+            iw_title
+            .alignment(Align.Center)
+        );
         this.addChild(
             (new TextWidget(null, "Title:"d))
             .alignment(Align.Right | Align.VCenter)
@@ -49,16 +64,23 @@ class Checker : TableLayout {
         );
         // row 2
         this.addChild(
+            iw_checkStatus
+            .alignment(Align.Center)
+        );
+        this.addChild(
             (new TextWidget(null, "Status:"d))
             .alignment(Align.Right | Align.VCenter)
         );
-        
         this.addChild(
             tw_checkStatus
             .alignment(Align.Left | Align.VCenter)
         );
         if(!(run_fix is null)) {
             // row 3
+            this.addChild(
+                iw_fixStatus
+                .alignment(Align.Center)
+            );
             this.addChild(
                 btn_fix
                 //.alignment(Align.Right | Align.VCenter)

@@ -24,6 +24,8 @@ public static void init() {
         .createWindow("System check"d, null, WindowFlag.Modal);
     _mW = new MWidget("mW"); //mainWidget
     window.mainWidget = _mW;
+    window.windowIcon = drawableCache
+        .getImage("information_shless_32");
 }
 
 public static void showMainWindow() {

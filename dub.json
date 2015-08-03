@@ -10,7 +10,8 @@
     
     "stringImportPaths": [
         "res",
-        "res/png"
+        "res/png",
+        "res/png/icons-shadowless-32"
     ],
     
 	"dependencies": {
