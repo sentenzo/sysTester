@@ -15,12 +15,16 @@ mixin APP_ENTRY_POINT;
 extern (C) int UIAppMain(string[] args) {
     //Log.setStderrLogger();
     //Log.setLogLevel(LogLevel.Fatal);
-    
+    bool isShellEnabled = logic.isShellEnabled();
     gui.init();
     
-    foreach(_InitChW x; logic.LogicList._list) {
-        gui.addCheck(x);
-    }
+    if (logic.isShellEnabled())
+        foreach(_InitChW x; logic.LogicList._list) 
+            gui.addCheck(x);
+    else
+        foreach(_InitChW x; logic.LogicList._listNoShell) 
+            gui.addCheck(x);
+    
     
     gui.showMainWindow();
     return Platform.instance.enterMessageLoop();

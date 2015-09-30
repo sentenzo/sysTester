@@ -5,19 +5,20 @@ import std.typecons;
 
 import std.conv:to;
 
-static class SqlSvrVersion : CheckLogic {
+static class SqlSvrVersion : CheckLogic, CheckLogicNoShell {
     static this() {
         LogicList.addLogic!SqlSvrVersion;
     }
-    
+    static dstring title = "SQL Server version"d;
 
     // MS SQL Server 2005, 2008(R2), 2012
     // http://sqlserverbuilds.blogspot.ru/
     
+    
+    
     static string rExStr = 
         `9\.0|10\.5|11\.`;
     public static _InitChW getInitInfo() {
-        dstring title = "SQL Server version"d;
         _CheckRunner run_check = delegate() {
             dstring comm = "";
             bool ans = false;
@@ -44,5 +45,14 @@ static class SqlSvrVersion : CheckLogic {
             , `REG_SZ`
         );
         return r.answer;
+    }
+
+    public static _InitChW getInitInfoNoShell() {
+        _CheckRunner run_check = delegate() {
+            return tuple(false, 
+                        to!dstring("System shell is unavailable"));
+        };
+        _CheckRunner run_fix = null; 
+        return tuple(title, run_check, run_fix);
     }
 }

@@ -37,8 +37,8 @@ public static addCheck(E...)(E vals) {
 
 uint getRandColor() {
     uint ret = 0xdd000000;
-    ret += uniform(0x00, 0xff) * 0x10000;
-    ret += uniform(0x00, 0xff) * 0x100;
+    ret += uniform(0x00, 0xff) << 4; //* 0x10000;
+    ret += uniform(0x00, 0xff) << 2; //* 0x100;
     ret += uniform(0x00, 0xff);
     return ret;
 }

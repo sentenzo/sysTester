@@ -5,6 +5,7 @@ __dummy.html
 *.obj
 *.log
 bin
+bin/*.dll
 dub.selection.json
 dub.selection*
 *.exe
