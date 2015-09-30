@@ -48,9 +48,15 @@ static class SqlSvrVersion : CheckLogic, CheckLogicNoShell {
     }
 
     public static _InitChW getInitInfoNoShell() {
+        string path = `C:\Program Files\Microsoft SQL Server`;
+        //string path = `C:\Program Files (x86)\Microsoft SQL Server`;
         _CheckRunner run_check = delegate() {
-            return tuple(false, 
-                        to!dstring("System shell is unavailable"));
+            if(fsCheck(path))
+                return tuple(true, 
+                        to!dstring("(path exists): " ~ path));
+            else
+                return tuple(false, 
+                        to!dstring("(path not exists): " ~ path));
         };
         _CheckRunner run_fix = null; 
         return tuple(title, run_check, run_fix);

@@ -5,6 +5,7 @@ import std.typecons;
 
 import gui:_CheckRunner, _InitChW;
 import std.process, std.regex;
+import std.file:exists;
 
 // ======
 // LogicList base logic
@@ -40,6 +41,16 @@ class LogicList {
     }
 }
 
+static bool isShellEnabled() {
+    try {
+        auto cmd = executeShell("time /T");
+        return true;
+        //return false;
+    } catch (Exception e) {
+        return false;
+    }
+}
+
 // ======
 // some helpful stuff for checking purposes
 // ======
@@ -60,12 +71,6 @@ Report checkCmd(string cmdStr, string rExStr, string rExFlags = "") {
     }
 }
 
-static bool isShellEnabled() {
-    try {
-        auto cmd = executeShell("time /T");
-        return true;
-        //return false;
-    } catch (Exception e) {
-        return false;
-    }
+bool fsCheck(string path) {
+    return exists(path);
 }
